@@ -1,0 +1,19 @@
++ source .env
+++ DOMAIN=atendeloja.com.br
+++ MYSQL_ROOT_PASSWORD=137025
+++ MYSQL_DATABASE=wp-atendeloja
+++ MYSQL_USER=wp-atendeloja
+++ MYSQL_PASSWORD=137025
++ APP_NAME=wordpress
++ CONT_NAME=litespeed
++ DOC_FD=
++ '[' '!' -z atendeloja.com.br ']'
++ case ${1} in
++ help_message 1
++ case ${1} in
++ echow 'Script will get '\''DOMAIN'\'' and '\''database'\'' info from .env file, then auto setup virtual host and the wordpress site for you.'
++ FLAG='Script will get '\''DOMAIN'\'' and '\''database'\'' info from .env file, then auto setup virtual host and the wordpress site for you.'
++ shift
++ echo -e '\033[1mScript will get '\''DOMAIN'\'' and '\''database'\'' info from .env file, then auto setup virtual host and the wordpress site for you.\033[0m'
+[1mScript will get 'DOMAIN' and 'database' info from .env file, then auto setup virtual host and the wordpress site for you.[0m
++ exit 0

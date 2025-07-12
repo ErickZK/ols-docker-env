@@ -20,23 +20,22 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-/** O nome do banco de dados */
-define( 'DB_NAME',     'wp-atendeloja' );
+define( 'DB_NAME', 'database_name_here' );
 
-/** Usuário do banco de dados */
-define( 'DB_USER',     'wp-atendeloja' );
+/** Database username */
+define( 'DB_USER', 'username_here' );
 
-/** Senha do banco de dados */
-define( 'DB_PASSWORD', '137025' );
+/** Database password */
+define( 'DB_PASSWORD', 'password_here' );
 
-/** Host do banco de dados */
-define( 'DB_HOST',     'mysql:3306' );
+/** Database hostname */
+define( 'DB_HOST', 'localhost' );
 
-/** Charset do banco de dados — pode ficar assim */
-define( 'DB_CHARSET',  'utf8' );
+/** Database charset to use in creating database tables. */
+define( 'DB_CHARSET', 'utf8' );
 
-/** Collate — normalmente deixa vazio */
-define( 'DB_COLLATE',  '' );
+/** The database collate type. Don't change this if in doubt. */
+define( 'DB_COLLATE', '' );
 
 /**#@+
  * Authentication unique keys and salts.

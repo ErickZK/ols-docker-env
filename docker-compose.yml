@@ -36,6 +36,37 @@ services:
       TZ: ${TimeZone}
     networks:
       - default
+      - coolify
+    labels:
+      - traefik.enable=true
+
+
+      # --- Router HTTP que redireciona para HTTPS ---
+      - "traefik.http.routers.atendeloja-http.entrypoints=http"
+      - "traefik.http.routers.atendeloja-http.rule=Host(`atendeloja.com.br`) && PathPrefix(`/`)"
+      - "traefik.http.routers.atendeloja-http.middlewares=redirect-to-https@docker"
+
+      # Middleware que faz o redirect para https
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https"
+
+      # 1) HTTPS-only router
+      - "traefik.http.routers.atendeloja.entrypoints=https"
+      - "traefik.http.routers.atendeloja.rule=Host(`atendeloja.com.br`)"
+      - "traefik.http.routers.atendeloja.tls=true"
+      - "traefik.http.routers.atendeloja.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.atendeloja.middlewares=compress@docker"
+      - "traefik.http.routers.atendeloja.service=litespeed@docker"
+
+      # 2) Definição do serviço “litespeed” e porta interna
+      - "traefik.http.services.litespeed.loadbalancer.server.port=80"
+
+      # 3) Middleware de compressão
+      - "traefik.http.middlewares.compress.compress=true"
+
+
+
+      # (se quiser compressão HTTP)
+      - traefik.http.middlewares.gzip.compress=true
   phpmyadmin:
     image: bitnami/phpmyadmin:5.2.2
     ports:
@@ -59,6 +90,28 @@ services:
     restart: always
     networks:
       - default
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node      # roda em nó único
+      - xpack.security.enabled=false     # desativa autenticação (só p/ dev)
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m   # ajusta heap Java
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - default
+volumes:
+  esdata:
 networks:
   default:
     driver: bridge
+  coolify:
+    external: true
